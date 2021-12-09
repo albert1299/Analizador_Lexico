@@ -41,12 +41,18 @@ public class Ejercicio2Analizador {
                 token.setTipo(null);
                 token.setValor(palabra);
                 tokens.add(token);
-                throw new RuntimeException("TOKEN INVALIDO "+palabra);
+                throw new RuntimeException("TOKEN INVALIDO " + palabra);
                 // System.out.println("ERROR" + " "+token.getValor());
             }
         }
         return tokens;
     }
+
+    /*ENTERO aux = -34;
+ENTERO b = 56;
+ENTERO c = aux * b;      
+ENTERO suma = 34 / 45;*/
+
 
     public static void main(String[] args) {
         String input = "ENTERO suma = 34 / 45 ;";
@@ -55,11 +61,17 @@ public class Ejercicio2Analizador {
             if (token.getTipo() != null) {
                 int nro_chars = token.getValor().length();
                 String valueStr = token.getValor().toString();
-                //char fs = token.getValor().charAt(0);
-                //if (nro_chars > 1 && (fs == '*' || fs == '/'))
-                if (nro_chars > 1 && (valueStr.contains("*") || valueStr.contains("/") || valueStr.contains("=") || valueStr.contains(";") ))
-                    System.out.println("ERROR" + "  " + token.getValor());
-                else if (nro_chars > 6 && valueStr.contains("ENTERO"))
+                String new_string = valueStr.substring(1);
+                char fs = token.getValor().charAt(0);
+                if (nro_chars > 1 && (valueStr.contains("*") || valueStr.contains("/") || valueStr.contains("=")
+                        || valueStr.contains("+") || valueStr.contains("-"))) {
+                    if (token.getTipo().toString() == "NUMERO" && (fs == '+' || fs == '-') && (!new_string.contains("*") && !new_string.contains("/") && !new_string.contains("=") && !new_string.contains("+") && !new_string.contains("-") ) ) {
+                        System.out.println("NUMERO" + "  " + token.getValor());
+                    }
+                    else {
+                        System.out.println("ERROR" + "  " + token.getValor());
+                    }
+                } else if (nro_chars > 6 && valueStr.contains("ENTERO"))
                     System.out.println("VARIABLE" + "  " + token.getValor());
                 else
                     System.out.println(token.getTipo().toString() + "  " + token.getValor());
